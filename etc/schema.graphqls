@@ -1,0 +1,141 @@
+
+type Query {
+    
+    membershipProducts (
+            entity_id: String @doc(description: "Query by entity_id."),
+            sku: String @doc(description: "Query by sku."),
+            type_id: String @doc(description: "Query by type_id."),
+            name: String @doc(description: "Query by name."),
+            status: String @doc(description: "Query by status."),
+            duration: String @doc(description: "Query by duration."),
+            duration_array: String @doc(description: "Query by duration_array."),
+            created_at: String @doc(description: "Query by created_at."),
+            updated_at: String @doc(description: "Query by updated_at."),
+            url_key: String @doc(description: "Query by url_key."),
+            customer_group: String @doc(description: "Query by customer_group."),
+            featured_package: String @doc(description: "Query by featured_package."),
+            store_id: String @doc(description: "Query by store_id.")
+    ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\Identity")
+    myMembership (
+            membership_id: String @doc(description: "Query by membership_id."),
+            group_id: String @doc(description: "Query by group_id."),
+            name: String @doc(description: "Query by name."),
+            duration: String @doc(description: "Query by duration."),
+            price: String @doc(description: "Query by price."),
+            expiration_date: String @doc(description: "Query by expiration_date."),
+            created_at: String @doc(description: "Query by created_at."),
+            status: String @doc(description: "Query by status."),
+            product_id: String @doc(description: "Query by product_id."),
+            item_id: String @doc(description: "Query by item_id.")
+    ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\Identity")
+    cancelMembership (
+            entity_id: String @doc(description: "Query by entity_id."),
+            membership_id: String @doc(description: "Query by membership_id."),
+            status: String @doc(description: "Query by status."),
+            customer_comment: String @doc(description: "Query by customer_comment."),
+            admin_comment: String @doc(description: "Query by admin_comment."),
+            creation_time: String @doc(description: "Query by creation_time."),
+            name: String @doc(description: "Query by name."),
+            duration: String @doc(description: "Query by duration."),
+            price: String @doc(description: "Query by price."),
+            product_id: String @doc(description: "Query by product_id.")
+    ) : CancelMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by get cancel membership info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership\Identity")
+    membershipTransaction (
+            transaction_id: String @doc(description: "Query by transaction_id."),
+            name: String @doc(description: "Query by name."),
+            package: String @doc(description: "Query by package."),
+            amount: String @doc(description: "Query by amount."),
+            duration: String @doc(description: "Query by duration."),
+            duration_unit: String @doc(description: "Query by duration_unit."),
+            customer_id: String @doc(description: "Query by customer_id."),
+            created_at: String @doc(description: "Query by created_at."),
+            product_id: String @doc(description: "Query by product_id."),
+            product_options: String @doc(description: "Query by product_options."),
+            item_id: String @doc(description: "Query by item_id."),
+            group_id: String @doc(description: "Query by group_id.")
+    ) : MembershipTransaction @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction") @doc(description: "Query by Get membership transaction info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\Identity")
+}
+
+type MembershipProducts {
+    
+    entity_id  : String  @doc(description: "Query by entity_id.") 
+    sku  : String  @doc(description: "Query by sku.") 
+    type_id  : String  @doc(description: "Query by type_id.") 
+    name  : String  @doc(description: "Query by name.") 
+    status  : String  @doc(description: "Query by status.") 
+    duration  : String  @doc(description: "Query by duration.") 
+    duration_array  : String  @doc(description: "Query by duration_array.") 
+    attribute_set_id  : String  @doc(description: "Query by attribute_set_id.") 
+    has_options  : String  @doc(description: "Query by has_options.") 
+    required_options  : String  @doc(description: "Query by required_options.") 
+    url_key  : String  @doc(description: "Query by url_key.") 
+    customer_group  : String  @doc(description: "Query by customer_group.") 
+    featured_package  : String  @doc(description: "Query by featured_package.") 
+    short_description  : String  @doc(description: "Query by short_description.") 
+    store_id  : String  @doc(description: "Query by store_id.") 
+    price  : String  @doc(description: "Query by price.") 
+    final_price  : String  @doc(description: "Query by final_price.") 
+    created_at  : String  @doc(description: "Query by created_at.") 
+    updated_at  : String  @doc(description: "Query by updated_at.") 
+}
+
+type MyMembership {
+    
+    membership_id  : String  @doc(description: "Query by membership_id.") 
+    group_id  : String  @doc(description: "Query by group_id.") 
+    name  : String  @doc(description: "Query by name.") 
+    duration  : String  @doc(description: "Query by duration.") 
+    price  : String  @doc(description: "Query by price.") 
+    expiration_date  : String  @doc(description: "Query by expiration_date.") 
+    created_at  : String  @doc(description: "Query by created_at.") 
+    status  : String  @doc(description: "Query by status.") 
+    product_id  : String  @doc(description: "Query by product_id.") 
+    item_id  : String  @doc(description: "Query by item_id.") 
+    product_options  : String  @doc(description: "Query by product_options.") 
+}
+
+type Mutation {
+    
+    cancelMembership (
+            entity_id: String @doc(description: "Query by entity_id."),
+            membership_id: String @doc(description: "Query by membership_id."),
+            status: String @doc(description: "Query by status."),
+            customer_comment: String @doc(description: "Query by customer_comment."),
+            admin_comment: String @doc(description: "Query by admin_comment."),
+            creation_time: String @doc(description: "Query by creation_time."),
+            name: String @doc(description: "Query by name."),
+            duration: String @doc(description: "Query by duration."),
+            price: String @doc(description: "Query by price."),
+            product_id: String @doc(description: "Query by product_id.")
+    ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.") 
+}
+
+type CancelMembership {
+    
+    entity_id  : String  @doc(description: "Query by entity_id.") 
+    membership_id  : String  @doc(description: "Query by membership_id.") 
+    status  : String  @doc(description: "Query by status.") 
+    customer_comment  : String  @doc(description: "Query by customer_comment.") 
+    admin_comment  : String  @doc(description: "Query by admin_comment.") 
+    creation_time  : String  @doc(description: "Query by creation_time.") 
+    name  : String  @doc(description: "Query by name.") 
+    duration  : String  @doc(description: "Query by duration.") 
+    price  : String  @doc(description: "Query by price.") 
+    product_id  : String  @doc(description: "Query by product_id.") 
+}
+
+type MembershipTransaction {
+    
+    transaction_id  : String  @doc(description: "Query by transaction_id.") 
+    name  : String  @doc(description: "Query by name.") 
+    package  : String  @doc(description: "Query by package.") 
+    amount  : String  @doc(description: "Query by amount.") 
+    duration  : String  @doc(description: "Query by duration.") 
+    duration_unit  : String  @doc(description: "Query by duration_unit.") 
+    customer_id  : String  @doc(description: "Query by customer_id.") 
+    created_at  : String  @doc(description: "Query by created_at.") 
+    product_id  : String  @doc(description: "Query by product_id.") 
+    product_options  : String  @doc(description: "Query by product_options.") 
+    item_id  : String  @doc(description: "Query by item_id.") 
+    group_id  : String  @doc(description: "Query by group_id.") 
+}

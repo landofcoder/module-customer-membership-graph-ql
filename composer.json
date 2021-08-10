@@ -1,0 +1,27 @@
+{
+    "name": "landofcoder/module-customer-membership-graph-ql",
+    "description": "Magento 2 Customer Membership Graph Ql",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Landofcoder",
+            "email": "landofcoder@gmail.com",
+            "homepage": "https://landofcoder.com",
+            "role": "Magento 2 Customer Membership GraphQl"
+        }
+    ],
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "require": {
+        "landofcoder/module-customer-membership": "^1.0.6"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Lof\\CustomerMembershipGraphQl\\": ""
+        }
+    }
+}
