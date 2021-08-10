@@ -1,6 +1,6 @@
 # Mage2 Module Lof CustomerMembershipGraphQl
 
-    ``landofcoder/module-customermembershipgraphql``
+    ``landofcoder/module-customer-membership-graph-ql``
 
  - [Main Functionalities](#markdown-header-main-functionalities)
  - [Installation](#markdown-header-installation)
@@ -29,7 +29,7 @@ Magento 2 Customer Membership Graph Ql
     - public repository `packagist.org`
     - public github repository as vcs
  - Add the composer repository to the configuration by running `composer config repositories.repo.magento.com composer https://repo.magento.com/`
- - Install the module composer by running `composer require landofcoder/module-customermembershipgraphql`
+ - Install the module composer by running `composer require landofcoder/module-customer-membership-graph-ql`
  - enable the module by running `php bin/magento module:enable Lof_CustomerMembershipGraphQl`
  - apply database updates by running `php bin/magento setup:upgrade`\*
  - Flush the cache by running `php bin/magento cache:flush`
