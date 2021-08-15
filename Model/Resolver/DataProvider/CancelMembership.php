@@ -7,17 +7,83 @@ declare(strict_types=1);
 
 namespace Lof\CustomerMembershipGraphQl\Model\Resolver\DataProvider;
 
+use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
+use Lof\CustomerMembership\Api\CancelrequestRepositoryInterface;
+use Lof\CustomerMembership\Api\ProductMembershipRepositoryInterface;
+use Lof\CustomerMembership\Model\CancelrequestFactory;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
+use Magento\GraphQl\Model\Query\ContextInterface;
+
 class CancelMembership
 {
+    /**
+     * @var GetCustomer
+     */
+    private $getCustomer;
 
-    public function __construct()
+    /**
+     * @var CancelrequestRepositoryInterface
+     */
+    protected $cancelRepository;
+
+    /**
+     * @var CancelrequestFactory
+     */
+    protected $cancelrequestFactory;
+
+    /**
+     * @var ProductMembershipRepositoryInterface
+     */
+    protected $productMembershipRepository;
+
+    /**
+     * MyMembership constructor.
+     * @param CancelrequestRepositoryInterface $cancelRepositoryInterface
+     * @param GetCustomer $getCustomer
+     * @param CancelrequestFactory $cancelrequestFactory
+     * @param ProductMembershipRepositoryInterface $productMembershipRepository
+     */
+    public function __construct(
+        CancelrequestRepositoryInterface $cancelRepositoryInterface,
+        GetCustomer $getCustomer,
+        CancelrequestFactory $cancelrequestFactory,
+        ProductMembershipRepositoryInterface $productMembershipRepository
+    )
     {
-        
+        $this->cancelRepository = $cancelRepositoryInterface;
+        $this->getCustomer = $getCustomer;
+        $this->cancelrequestFactory = $cancelrequestFactory;
+        $this->productMembershipRepository = $productMembershipRepository;
     }
 
-    public function getCancelMembership()
+    /**
+     * @inheritdoc
+     */
+    public function getCancelMembership($args, $context)
     {
-        return 'proviced data';
+        $customer = $this->getCustomer->execute($context);
+        $store = $context->getExtensionAttributes()->getStore();
+        
+        $currentMembership = $this->productMembershipRepository->getByCustomer($customer->getId(), $store->getId());
+        if (!$currentMembership) {
+            throw new GraphQlNoSuchEntityException(__('The current customer isn\'t have membership plan.'));
+        }
+        $data = [
+            'membership_id' => $currentMembership->getMembershipId(),
+            'status' => \Lof\CustomerMembership\Model\Cancelrequest::PENDING,
+            'customer_comment' => isset($args['customer_comment'])?$args['customer_comment']:"",
+            'admin_comment' => '',
+            'name' => $currentMembership->getName(),
+            'duration' => $currentMembership->getDuration(),
+            'price' => $currentMembership->getPrice(),
+            'product_id' => $currentMembership->getProductId()
+        ];
+
+        $cancelRequestData = $this->cancelrequestFactory->create();
+        $cancelRequestData->setData($data);
+
+        $cancelRequest = $this->cancelRepository->saveByCustomer($customer->getId(), $cancelRequestData);
+        return $cancelRequest->getId()?"Send cancel request is success.":"false";
     }
 }
 

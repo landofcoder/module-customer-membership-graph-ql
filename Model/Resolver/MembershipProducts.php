@@ -38,7 +38,10 @@ class MembershipProducts implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $membershipProductsData = $this->membershipProductsDataProvider->getMembershipProducts();
+        $membershipProductsData = $this->membershipProductsDataProvider->getMembershipProducts(
+            $args,
+            $context
+        );
         return $membershipProductsData;
     }
 }

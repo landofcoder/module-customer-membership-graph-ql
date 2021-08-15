@@ -11,6 +11,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
@@ -38,7 +40,14 @@ class MembershipTransaction implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $membershipTransactionData = $this->membershipTransactionDataProvider->getMembershipTransaction();
+        /** @var ContextInterface $context */
+        if (!$context->getExtensionAttributes()->getIsCustomer()) {
+            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.'));
+        }
+        $membershipTransactionData = $this->membershipTransactionDataProvider->getMembershipTransaction(
+            $args,
+            $context
+        );
         return $membershipTransactionData;
     }
 }

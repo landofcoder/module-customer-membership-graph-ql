@@ -7,17 +7,44 @@ declare(strict_types=1);
 
 namespace Lof\CustomerMembershipGraphQl\Model\Resolver\DataProvider;
 
+use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
+use Lof\CustomerMembership\Api\ProductMembershipRepositoryInterface;
+
 class MyMembership
 {
 
-    public function __construct()
+    /**
+     * @var GetCustomer
+     */
+    private $getCustomer;
+
+    /**
+     * @var ProductMembershipRepositoryInterface
+     */
+    protected $productMembershipRepository;
+
+    /**
+     * MyMembership constructor.
+     * @param ProductMembershipRepositoryInterface $productMembershipRepositoryInterface
+     * @param GetCustomer $getCustomer
+     */
+    public function __construct(
+        ProductMembershipRepositoryInterface $productMembershipRepositoryInterface,
+        GetCustomer $getCustomer
+    )
     {
-        
+        $this->productMembershipRepository = $productMembershipRepositoryInterface;
+        $this->getCustomer = $getCustomer;
     }
 
-    public function getMyMembership()
+    /**
+     * @inheritdoc
+     */
+    public function getMyMembership($args, $context)
     {
-        return 'proviced data';
+        $customer = $this->getCustomer->execute($context);
+        $store = $context->getExtensionAttributes()->getStore();
+        return $this->productMembershipRepository->getByCustomer($customer->getId(), $store->getId());
     }
 }
 

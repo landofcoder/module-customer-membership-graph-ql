@@ -2,61 +2,91 @@
 type Query {
     
     membershipProducts (
-            entity_id: String @doc(description: "Query by entity_id."),
-            sku: String @doc(description: "Query by sku."),
-            type_id: String @doc(description: "Query by type_id."),
-            name: String @doc(description: "Query by name."),
-            status: String @doc(description: "Query by status."),
-            duration: String @doc(description: "Query by duration."),
-            duration_array: String @doc(description: "Query by duration_array."),
-            created_at: String @doc(description: "Query by created_at."),
-            updated_at: String @doc(description: "Query by updated_at."),
-            url_key: String @doc(description: "Query by url_key."),
-            customer_group: String @doc(description: "Query by customer_group."),
-            featured_package: String @doc(description: "Query by featured_package."),
-            store_id: String @doc(description: "Query by store_id.")
+        filters: MembershipProductFilterInput @doc(description: "Identifies which membership products filter inputs to search for and return.")
+        pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
+        currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
+        sort: MembershipProductSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
     ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\Identity")
+
     myMembership (
-            membership_id: String @doc(description: "Query by membership_id."),
-            group_id: String @doc(description: "Query by group_id."),
-            name: String @doc(description: "Query by name."),
-            duration: String @doc(description: "Query by duration."),
-            price: String @doc(description: "Query by price."),
-            expiration_date: String @doc(description: "Query by expiration_date."),
-            created_at: String @doc(description: "Query by created_at."),
-            status: String @doc(description: "Query by status."),
-            product_id: String @doc(description: "Query by product_id."),
-            item_id: String @doc(description: "Query by item_id.")
+        storeId: String @doc(description: "Query by storeId.")
     ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\Identity")
-    cancelMembership (
-            entity_id: String @doc(description: "Query by entity_id."),
-            membership_id: String @doc(description: "Query by membership_id."),
-            status: String @doc(description: "Query by status."),
-            customer_comment: String @doc(description: "Query by customer_comment."),
-            admin_comment: String @doc(description: "Query by admin_comment."),
-            creation_time: String @doc(description: "Query by creation_time."),
-            name: String @doc(description: "Query by name."),
-            duration: String @doc(description: "Query by duration."),
-            price: String @doc(description: "Query by price."),
-            product_id: String @doc(description: "Query by product_id.")
-    ) : CancelMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by get cancel membership info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership\Identity")
+    
     membershipTransaction (
-            transaction_id: String @doc(description: "Query by transaction_id."),
-            name: String @doc(description: "Query by name."),
-            package: String @doc(description: "Query by package."),
-            amount: String @doc(description: "Query by amount."),
-            duration: String @doc(description: "Query by duration."),
-            duration_unit: String @doc(description: "Query by duration_unit."),
-            customer_id: String @doc(description: "Query by customer_id."),
-            created_at: String @doc(description: "Query by created_at."),
-            product_id: String @doc(description: "Query by product_id."),
-            product_options: String @doc(description: "Query by product_options."),
-            item_id: String @doc(description: "Query by item_id."),
-            group_id: String @doc(description: "Query by group_id.")
-    ) : MembershipTransaction @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction") @doc(description: "Query by Get membership transaction info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\Identity")
+        filters: MembershipTransactionFilterInput @doc(description: "Identifies which membership transaction filter inputs to search for and return.")
+        pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
+        currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
+        sort: MembershipTransactionSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
+    ) : MembershipTransactions @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction") @doc(description: "Query by Get membership transaction info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\Identity")
 }
 
-type MembershipProducts {
+type Mutation {
+    
+    cancelMembership (
+        customer_comment: String @doc(description: "Query by customer_comment.")
+    ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.") 
+}
+
+input MembershipTransactionFilterInput  @doc(description: "MembershipTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
+{
+    transaction_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction transaction_id")
+    name: FilterMatchTypeInput @deprecated(reason: "Filter Membership Transaction name")
+    package: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction package")
+    amount: FilterEqualTypeInput @deprecated(reason: "Filter Membership amount")
+    status: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction status")
+    duration: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction duration")
+    duration_unit: FilterEqualTypeInput @deprecated(reason: "Filter Membership duration_unit")
+    product_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction product_id")
+    group_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership transction group_id")
+    created_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was created")
+    updated_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was updated")
+}
+
+input MembershipTransactionSortInput @doc(description: "MembershipTransactionSortInput specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort sliders using searchable attributes with enabled 'Use in Filter Options' option")
+{
+    transaction_id: SortEnum @doc(description: "Sort by the transaction_id.")
+    created_at: SortEnum @doc(description: "Sort by the created_at (default).")
+    updated_at: SortEnum @doc(description: "Sort by the updated_at assigned to each slider.")
+    package: SortEnum @doc(description: "Sort by the package assigned to each slider.")
+    status: SortEnum @doc(description: "Sort by the status assigned to each slider.")
+    amount: SortEnum @doc(description: "Sort by the amount assigned to each slider.")
+    duration: SortEnum @doc(description: "Sort by the duration assigned to each slider.")
+    duration_unit: SortEnum @doc(description: "Sort by the duration_unit assigned to each slider.")
+    product_id: SortEnum @doc(description: "Sort by the product_id.")
+    group_id: SortEnum @doc(description: "Sort by the group_id.")
+}
+
+input MembershipProductFilterInput  @doc(description: "MembershipProductFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
+{
+    entity_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product entity_id")
+    sku: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product sku")
+    store_id: FilterMatchTypeInput @deprecated(reason: "Filter Membership Product store_id")
+    name: FilterMatchTypeInput @deprecated(reason: "Filter Membership Product name")
+    status: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product status")
+    duration: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product duration")
+    duration_array: FilterMatchTypeInput @deprecated(reason: "Filter Membership duration_array")
+    url_key: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product url_key")
+    customer_group: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product customer_group")
+    featured_package: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product featured_package")
+    created_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was created")
+    updated_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was updated")
+}
+
+input MembershipProductSortInput @doc(description: "MembershipProductSortInput specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort sliders using searchable attributes with enabled 'Use in Filter Options' option")
+{
+    entity_id: SortEnum @doc(description: "Sort by the entity_id.")
+    created_at: SortEnum @doc(description: "Sort by the created_at (default).")
+    updated_at: SortEnum @doc(description: "Sort by the updated_at assigned to each slider.")
+    featured_package: SortEnum @doc(description: "Sort by the featured_package assigned to each slider.")
+    status: SortEnum @doc(description: "Sort by the status assigned to each slider.")
+    name: SortEnum @doc(description: "Sort by the name assigned to each slider.")
+    sku: SortEnum @doc(description: "Sort by the sku assigned to each slider.")
+    duration: SortEnum @doc(description: "Sort by the duration assigned to each slider.")
+    customer_group: SortEnum @doc(description: "Sort by the customer_group.")
+    membership_order: SortEnum @doc(description: "Sort by the membership_order.")
+}
+
+type MembershipProduct {
     
     entity_id  : String  @doc(description: "Query by entity_id.") 
     sku  : String  @doc(description: "Query by sku.") 
@@ -94,24 +124,8 @@ type MyMembership {
     product_options  : String  @doc(description: "Query by product_options.") 
 }
 
-type Mutation {
-    
-    cancelMembership (
-            entity_id: String @doc(description: "Query by entity_id."),
-            membership_id: String @doc(description: "Query by membership_id."),
-            status: String @doc(description: "Query by status."),
-            customer_comment: String @doc(description: "Query by customer_comment."),
-            admin_comment: String @doc(description: "Query by admin_comment."),
-            creation_time: String @doc(description: "Query by creation_time."),
-            name: String @doc(description: "Query by name."),
-            duration: String @doc(description: "Query by duration."),
-            price: String @doc(description: "Query by price."),
-            product_id: String @doc(description: "Query by product_id.")
-    ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.") 
-}
-
 type CancelMembership {
-    
+
     entity_id  : String  @doc(description: "Query by entity_id.") 
     membership_id  : String  @doc(description: "Query by membership_id.") 
     status  : String  @doc(description: "Query by status.") 
@@ -138,4 +152,27 @@ type MembershipTransaction {
     product_options  : String  @doc(description: "Query by product_options.") 
     item_id  : String  @doc(description: "Query by item_id.") 
     group_id  : String  @doc(description: "Query by group_id.") 
+}
+
+type MembershipProducts @doc(description: "The membership products object is the top-level object returned in a product search.") {
+    items: [MembershipProduct] @doc(description: "An array of membership products that match the specified search criteria.")
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
+    total_count: Int @doc(description: "The number of membership products that are marked as visible. By default, in complex images, parent membership products are visible, but their child sliders are not.")
+    sort_fields: SortFields @doc(description: "An object that includes the default sort field and all available sort fields.") @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\\SortFields")
+}
+
+type MembershipTransactions @doc(description: "The membership transactions object is the top-level object returned in a product search.") {
+    items: [MembershipProduct] @doc(description: "An array of membership transactions that match the specified search criteria.")
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
+    total_count: Int @doc(description: "The number of membership transactions that are marked as visible. By default, in complex images, parent membership transactions are visible, but their child sliders are not.")
+    sort_fields: SortFields @doc(description: "An object that includes the default sort field and all available sort fields.") @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\\SortFields")
+}
+
+type SortField {
+    value: String @doc(description: "Attribute code of sort field.")
+    label: String @doc(description: "Label of sort field.")
+}
+type SortFields @doc(description: "SortFields contains a default value for sort fields and all available sort fields.") {
+    default: String @doc(description: "Default value of sort fields.")
+    options: [SortField] @doc(description: "Available sort fields.")
 }
