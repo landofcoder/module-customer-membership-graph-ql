@@ -8,9 +8,7 @@ type Query {
         sort: MembershipProductSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
     ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\\Identity")
 
-    myMembership (
-        storeId: Int = 0 @doc(description: "Query by storeId.")
-    ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\\Identity")
+    myMembership : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\\Identity")
     
     membershipTransaction (
         filters: MembershipTransactionFilterInput @doc(description: "Identifies which membership transaction filter inputs to search for and return.")

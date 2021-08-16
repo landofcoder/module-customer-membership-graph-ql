@@ -97,9 +97,26 @@ Magento 2 Customer Membership Graph Ql
 }
 ```
 
-2. Query My Membership:
-
+2. Query My Membership (should logged in customer account before):
+```
+{
+	myMembership{
+    membership_id
+    group_id
+    name
+    duration
+    price
+    expiration_date
+    created_at
+    status
+    product_id
+    item_id
+    product_options
+  }
+}
+```
 
 3. Query My Membership Transaction:
-
+```
+```
 4. Query Mutation Cancel Membership Request:

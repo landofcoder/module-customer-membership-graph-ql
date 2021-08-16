@@ -8,7 +8,8 @@ declare(strict_types=1);
 namespace Lof\CustomerMembershipGraphQl\Model\Resolver\DataProvider;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
-use Lof\CustomerMembership\Api\ProductMembershipRepositoryInterface;
+use Lof\CustomerMembership\Api\MembershipRepositoryInterface;
+use Lof\CustomerMembership\Helper\Data;
 
 class MyMembership
 {
@@ -19,22 +20,30 @@ class MyMembership
     private $getCustomer;
 
     /**
-     * @var ProductMembershipRepositoryInterface
+     * @var MembershipRepositoryInterface
      */
-    protected $productMembershipRepository;
+    protected $membershipRepository;
+
+    /**
+     * @var Data
+     */
+    protected $helperData;
 
     /**
      * MyMembership constructor.
-     * @param ProductMembershipRepositoryInterface $productMembershipRepositoryInterface
+     * @param MembershipRepositoryInterface $membershipRepository
      * @param GetCustomer $getCustomer
+     * @param Data $helperData
      */
     public function __construct(
-        ProductMembershipRepositoryInterface $productMembershipRepositoryInterface,
-        GetCustomer $getCustomer
+        MembershipRepositoryInterface $membershipRepository,
+        GetCustomer $getCustomer,
+        Data $helperData
     )
     {
-        $this->productMembershipRepository = $productMembershipRepositoryInterface;
+        $this->membershipRepository = $membershipRepository;
         $this->getCustomer = $getCustomer;
+        $this->helperData = $helperData;
     }
 
     /**
@@ -44,7 +53,7 @@ class MyMembership
     {
         $customer = $this->getCustomer->execute($context);
         $store = $context->getExtensionAttributes()->getStore();
-        return $this->productMembershipRepository->getByCustomer($customer->getId(), $store->getId());
+        return $this->membershipRepository->getMyMembership($customer->getId());
     }
 }
 
