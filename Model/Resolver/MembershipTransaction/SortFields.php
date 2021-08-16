@@ -24,7 +24,6 @@ class SortFields implements ResolverInterface
         $sortFieldsOptions = [
             ['label' => "transaction_id", 'value' => "transaction_id"],
             ['label' => "created_at", 'value' => "created_at"],
-            ['label' => "updated_at", 'value' => "updated_at"],
             ['label' => "package", 'value' => "package"],
             ['label' => "status", 'value' => "status"],
             ['label' => "amount", 'value' => "amount"],

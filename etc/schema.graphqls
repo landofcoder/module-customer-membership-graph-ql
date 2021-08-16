@@ -27,6 +27,7 @@ type Mutation {
 
 input MembershipTransactionFilterInput  @doc(description: "MembershipTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
 {
+    customer_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction customer_id")
     transaction_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction transaction_id")
     name: FilterMatchTypeInput @deprecated(reason: "Filter Membership Transaction name")
     package: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction package")
@@ -37,14 +38,12 @@ input MembershipTransactionFilterInput  @doc(description: "MembershipTransaction
     product_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership Transaction product_id")
     group_id: FilterEqualTypeInput @deprecated(reason: "Filter Membership transction group_id")
     created_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was created")
-    updated_at: FilterMatchTypeInput @doc(description: "Filter Timestamp indicating when the slider was updated")
 }
 
 input MembershipTransactionSortInput @doc(description: "MembershipTransactionSortInput specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort sliders using searchable attributes with enabled 'Use in Filter Options' option")
 {
     transaction_id: SortEnum @doc(description: "Sort by the transaction_id.")
     created_at: SortEnum @doc(description: "Sort by the created_at (default).")
-    updated_at: SortEnum @doc(description: "Sort by the updated_at assigned to each slider.")
     package: SortEnum @doc(description: "Sort by the package assigned to each slider.")
     status: SortEnum @doc(description: "Sort by the status assigned to each slider.")
     amount: SortEnum @doc(description: "Sort by the amount assigned to each slider.")

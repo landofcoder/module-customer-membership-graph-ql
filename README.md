@@ -116,7 +116,33 @@ Magento 2 Customer Membership Graph Ql
 }
 ```
 
-3. Query My Membership Transaction:
+3. Query My Membership Transaction (should logged in customer account before):
+```
+{
+	membershipTransaction(
+    filters: {}, 
+    pageSize: 10, 
+    currentPage: 1, 
+    sort:{
+      created_at: DESC
+    }
+  ){
+    items{
+      	transaction_id
+      	name
+      	package
+      	amount
+       	duration
+      	duration_unit
+        created_at
+      	product_id
+        item_id
+    }
+    
+    total_count
+  }
+}
+```
+4. Query Mutation Cancel Membership Request (should logged in customer account before):
 ```
 ```
-4. Query Mutation Cancel Membership Request:
