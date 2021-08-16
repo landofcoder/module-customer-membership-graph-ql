@@ -57,5 +57,11 @@ Magento 2 Customer Membership Graph Ql
 
 ## Attributes
 
+## Example Graph Ql Query
+
+1. Query Membership Products:
+```
+```
+
 
 

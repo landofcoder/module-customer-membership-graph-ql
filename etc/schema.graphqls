@@ -6,18 +6,18 @@ type Query {
         pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
         currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
         sort: MembershipProductSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
-    ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\Identity")
+    ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\\Identity")
 
     myMembership (
         storeId: String @doc(description: "Query by storeId.")
-    ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\Identity")
+    ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\\Identity")
     
     membershipTransaction (
         filters: MembershipTransactionFilterInput @doc(description: "Identifies which membership transaction filter inputs to search for and return.")
         pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
         currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
         sort: MembershipTransactionSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
-    ) : MembershipTransactions @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction") @doc(description: "Query by Get membership transaction info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\Identity")
+    ) : MembershipTransactions @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction") @doc(description: "Query by Get membership transaction info.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\\Identity")
 }
 
 type Mutation {
