@@ -9,7 +9,7 @@ type Query {
     ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\\Identity")
 
     myMembership (
-        storeId: String @doc(description: "Query by storeId.")
+        storeId: Int = 0 @doc(description: "Query by storeId.")
     ) : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\\Identity")
     
     membershipTransaction (
@@ -162,7 +162,7 @@ type MembershipProducts @doc(description: "The membership products object is the
 }
 
 type MembershipTransactions @doc(description: "The membership transactions object is the top-level object returned in a product search.") {
-    items: [MembershipProduct] @doc(description: "An array of membership transactions that match the specified search criteria.")
+    items: [MembershipTransaction] @doc(description: "An array of membership transactions that match the specified search criteria.")
     page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
     total_count: Int @doc(description: "The number of membership transactions that are marked as visible. By default, in complex images, parent membership transactions are visible, but their child sliders are not.")
     sort_fields: SortFields @doc(description: "An object that includes the default sort field and all available sort fields.") @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipTransaction\\SortFields")
