@@ -9,7 +9,7 @@ namespace Lof\CustomerMembershipGraphQl\Model\Resolver\DataProvider;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Lof\CustomerMembership\Api\CancelrequestRepositoryInterface;
-use Lof\CustomerMembership\Api\ProductMembershipRepositoryInterface;
+use Lof\CustomerMembership\Api\MembershipRepositoryInterface;
 use Lof\CustomerMembership\Model\CancelrequestFactory;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\GraphQl\Model\Query\ContextInterface;
@@ -32,28 +32,28 @@ class CancelMembership
     protected $cancelrequestFactory;
 
     /**
-     * @var ProductMembershipRepositoryInterface
+     * @var MembershipRepositoryInterface
      */
-    protected $productMembershipRepository;
+    protected $membershipRepository;
 
     /**
      * MyMembership constructor.
      * @param CancelrequestRepositoryInterface $cancelRepositoryInterface
      * @param GetCustomer $getCustomer
      * @param CancelrequestFactory $cancelrequestFactory
-     * @param ProductMembershipRepositoryInterface $productMembershipRepository
+     * @param MembershipRepositoryInterface $membershipRepository
      */
     public function __construct(
         CancelrequestRepositoryInterface $cancelRepositoryInterface,
         GetCustomer $getCustomer,
         CancelrequestFactory $cancelrequestFactory,
-        ProductMembershipRepositoryInterface $productMembershipRepository
+        MembershipRepositoryInterface $membershipRepository
     )
     {
         $this->cancelRepository = $cancelRepositoryInterface;
         $this->getCustomer = $getCustomer;
         $this->cancelrequestFactory = $cancelrequestFactory;
-        $this->productMembershipRepository = $productMembershipRepository;
+        $this->membershipRepository = $membershipRepository;
     }
 
     /**
@@ -64,7 +64,7 @@ class CancelMembership
         $customer = $this->getCustomer->execute($context);
         $store = $context->getExtensionAttributes()->getStore();
         
-        $currentMembership = $this->productMembershipRepository->getByCustomer($customer->getId(), $store->getId());
+        $currentMembership = $this->membershipRepository->getMyMembership($customer->getId());
         if (!$currentMembership) {
             throw new GraphQlNoSuchEntityException(__('The current customer isn\'t have membership plan.'));
         }
