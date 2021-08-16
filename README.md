@@ -145,4 +145,7 @@ Magento 2 Customer Membership Graph Ql
 ```
 4. Query Mutation Cancel Membership Request (should logged in customer account before):
 ```
+mutation{
+  cancelMembership(customer_comment: "I want cancel my membership!")
+}
 ```
