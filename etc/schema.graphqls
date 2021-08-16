@@ -63,8 +63,6 @@ input MembershipProductFilterInput  @doc(description: "MembershipProductFilterIn
     store_id: FilterMatchTypeInput @deprecated(reason: "Filter Membership Product store_id")
     name: FilterMatchTypeInput @deprecated(reason: "Filter Membership Product name")
     status: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product status")
-    duration: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product duration")
-    duration_array: FilterMatchTypeInput @deprecated(reason: "Filter Membership duration_array")
     url_key: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product url_key")
     customer_group: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product customer_group")
     featured_package: FilterEqualTypeInput @deprecated(reason: "Filter Membership Product featured_package")
@@ -81,7 +79,6 @@ input MembershipProductSortInput @doc(description: "MembershipProductSortInput s
     status: SortEnum @doc(description: "Sort by the status assigned to each slider.")
     name: SortEnum @doc(description: "Sort by the name assigned to each slider.")
     sku: SortEnum @doc(description: "Sort by the sku assigned to each slider.")
-    duration: SortEnum @doc(description: "Sort by the duration assigned to each slider.")
     customer_group: SortEnum @doc(description: "Sort by the customer_group.")
     membership_order: SortEnum @doc(description: "Sort by the membership_order.")
 }
@@ -93,8 +90,7 @@ type MembershipProduct {
     type_id  : String  @doc(description: "Query by type_id.") 
     name  : String  @doc(description: "Query by name.") 
     status  : String  @doc(description: "Query by status.") 
-    duration  : String  @doc(description: "Query by duration.") 
-    duration_array  : String  @doc(description: "Query by duration_array.") 
+    duration  : [MembershipDuration]  @doc(description: "Query by MembershipDuration.")
     attribute_set_id  : String  @doc(description: "Query by attribute_set_id.") 
     has_options  : String  @doc(description: "Query by has_options.") 
     required_options  : String  @doc(description: "Query by required_options.") 
@@ -107,6 +103,15 @@ type MembershipProduct {
     final_price  : String  @doc(description: "Query by final_price.") 
     created_at  : String  @doc(description: "Query by created_at.") 
     updated_at  : String  @doc(description: "Query by updated_at.") 
+}
+
+type MembershipDuration {
+    record_id  : Int  @doc(description: "Query by record_id.")
+    membership_duration  : Int  @doc(description: "Query by membership_duration.")
+    membership_unit  : String  @doc(description: "Query by membership_unit.")
+    membership_price  : Float  @doc(description: "Query by membership_price.")
+    membership_order : Int @doc(description: "Query by membership_order.")
+    initialize : Int @doc(description: "Query by initialize.")
 }
 
 type MyMembership {

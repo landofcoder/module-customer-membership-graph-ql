@@ -61,7 +61,45 @@ Magento 2 Customer Membership Graph Ql
 
 1. Query Membership Products:
 ```
+{
+  membershipProducts(
+    filters: {}, 
+    pageSize: 10, 
+    currentPage: 1, 
+    sort:{
+      created_at: DESC
+    }
+  ){
+    items{
+      entity_id
+      sku
+      name
+      status
+      duration {
+        record_id
+        membership_duration
+        membership_unit
+        membership_price
+        membership_order
+        initialize
+      }
+      url_key
+      customer_group
+      featured_package
+      short_description
+      price
+      final_price
+      created_at
+      store_id
+    }
+    total_count
+  }
+}
 ```
 
+2. Query My Membership:
 
 
+3. Query My Membership Transaction:
+
+4. Query Mutation Cancel Membership Request:

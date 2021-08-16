@@ -19,6 +19,7 @@ use Magento\Search\Model\Query;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
 use Lof\CustomerMembership\Api\ProductMembershipRepositoryInterface;
+use Lof\CustomerMembership\Helper\Data;
 use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\Builder as SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\ArgumentApplier\Filter;
 
@@ -42,15 +43,22 @@ class MembershipProducts
      */
     private $apiRepository;
 
+    /**
+     * @var Data
+     */
+    protected $helperData;
+
     public function __construct(
         ProductMembershipRepositoryInterface $apiRepositoryInterface,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        Data $helperData
     )
     {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->apiRepository = $apiRepositoryInterface;
         $this->scopeConfig = $scopeConfig;
+        $this->helperData = $helperData;
     }
     /**
      * @inheritdoc
@@ -63,9 +71,9 @@ class MembershipProducts
         if ($args['pageSize'] < 1) {
             throw new GraphQlInputException(__('pageSize value must be greater than 0.'));
         }
-        if(isset($args['filters']) && (!isset($args['filters']['status']) || !$args['filters']['status'])){
+        /* if(isset($args['filters']) && (!isset($args['filters']['status']) || !$args['filters']['status'])){
             $args['filters']['status'] = ['eq' => 1];
-        }
+        } */
         $store = $context->getExtensionAttributes()->getStore();
         $args[Filter::ARGUMENT_NAME] = $this->formatMatchFilters($args['filters'], $store);
         $searchCriteria = $this->searchCriteriaBuilder->build( 'membershipProducts', $args );
@@ -78,7 +86,24 @@ class MembershipProducts
         $items = [];
         if($resultItems){
             foreach($resultItems as $_item){
-                $items[] = $_item->__toArray();
+                $_new_item = $_item->__toArray();
+                $duration = isset($_new_item['duration'])?$_new_item['duration']:[];
+                $duration = $this->helperData->getDurationDecoded($duration);
+                $new_duration = [];
+                if ($duration && count($duration)) {
+                    foreach ($duration as $_duration_item) {
+                        $new_duration[] = [
+                            'record_id' => (int)$_duration_item['record_id'],
+                            'membership_duration' => (int)$_duration_item['membership_duration'],
+                            'membership_unit' => $_duration_item['membership_unit'],
+                            'membership_price' => (float)$_duration_item['membership_price'],
+                            'membership_order' => (int)$_duration_item['membership_order'],
+                            'initialize' => (int)$_duration_item['initialize']
+                        ];
+                    }
+                }
+                $_new_item['duration'] = $new_duration;
+                $items[] = $_new_item;
             }
         }
         return [
