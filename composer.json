@@ -14,7 +14,6 @@
     "version": "1.0.0",
     "minimum-stability": "dev",
     "require": {
-        "landofcoder/module-customer-membership": "^1.0.8"
     },
     "autoload": {
         "files": [
