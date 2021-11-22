@@ -63,7 +63,7 @@ class CancelMembership
     {
         $customer = $this->getCustomer->execute($context);
         $store = $context->getExtensionAttributes()->getStore();
-        
+
         $currentMembership = $this->membershipRepository->getMyMembership($customer->getId());
         if (!$currentMembership) {
             throw new GraphQlNoSuchEntityException(__('The current customer isn\'t have membership plan.'));
