@@ -19,6 +19,10 @@ type Query {
 }
 
 type Mutation {
+
+    addMembershipProductsToCart (
+        input: AddMembershipProductsToCartInput
+        ): AddMembershipProductsToCartOutput @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\AddMembershipProductsToCart")
     
     cancelMembership (
         customer_comment: String @doc(description: "Query by customer_comment.")
@@ -177,4 +181,18 @@ type SortField {
 type SortFields @doc(description: "SortFields contains a default value for sort fields and all available sort fields.") {
     default: String @doc(description: "Default value of sort fields.")
     options: [SortField] @doc(description: "Available sort fields.")
+}
+
+input AddMembershipProductsToCartInput {
+    cart_id: String!
+    membership_input: MembershipInput!
+}
+
+type AddMembershipProductsToCartOutput {
+    cart: Cart!
+}
+
+input MembershipInput {
+    sku: String!
+    option_id: String
 }
