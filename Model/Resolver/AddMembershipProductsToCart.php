@@ -147,22 +147,8 @@ class AddMembershipProductsToCart implements ResolverInterface
         }
 
         try {
-            $selected_options = null;
-            $entered_options = null;
-            $cartItems = [];
-            $cartItemData = [
-                "data" => [
-                    "sku" => $sku,
-                    "quantity" => $qty,
-                    "parent_sku" => null,
-                    "selected_options" => $selected_options,
-                    "entered_options" => $entered_options
-                ]
-            ];
-
-            $cartItems[] = $cartItemData;
-            $this->addProductsToCart->execute($cart, $cartItems);
-
+            $selectedOptions = [$durationOption];
+            $enteredOptions = null;
             list($duration, $durationUnit) = explode('|', $durationOption);
 
             $durationOptions = $product->getData('duration');
@@ -181,6 +167,26 @@ class AddMembershipProductsToCart implements ResolverInterface
             $options['customer_group'] = $product->getData('customer_group');
             $options['membership_price'] = $packagePrice;
             $duration = @serialize($options);
+
+            $cartItems = [];
+            $cartItemData = [
+                "data" => [
+                    "sku" => $sku,
+                    "quantity" => $qty,
+                    "parent_sku" => null,
+                    "selected_options" => $selectedOptions,
+                    "entered_options" => $enteredOptions
+                ],
+                "customizable_options" => [
+                    [
+                        "id" => 1,
+                        "value_string" => $duration
+                    ]
+                ]
+            ];
+
+            $cartItems[] = $cartItemData;
+            $this->addProductsToCart->execute($cart, $cartItems);
 
             $this->updateCartItemOption($product->getEntityId(), $cart, $duration);
         } catch (Exception $e) {
