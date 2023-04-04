@@ -95,7 +95,14 @@ class AddMembershipProductsToCart implements ResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * @param Field $field
+     * @param $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @return \Magento\Framework\GraphQl\Query\Resolver\Value|mixed
+     * @throws GraphQlInputException
+     * @throws GraphQlNoSuchEntityException
      */
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
@@ -139,12 +146,7 @@ class AddMembershipProductsToCart implements ResolverInterface
         $optionId        = isset($membershipInput['option_id']) ? $membershipInput['option_id'] : '';
         $qty        = isset($membershipInput['qty']) ? (float)$membershipInput['qty'] : 1;
         $durationOption = $optionId;
-        try {
-            /** @var \Magento\Catalog\Api\Data\ProductInterface|\Magento\Catalog\Model\Product $product */
-            $product = $this->productRepository->get($sku);
-        } catch (NoSuchEntityException $e) {
-            throw new GraphQlNoSuchEntityException(__('Could not find a product with SKU "%sku"', ['sku' => $sku]));
-        }
+        $product = $this->productRepository->get($sku);
 
         try {
             $selectedOptions = [$durationOption];
@@ -161,7 +163,7 @@ class AddMembershipProductsToCart implements ResolverInterface
                     $packagePrice = $option['membership_price'];
                 }
             }
-
+            $options['duration'] =  $optionId;
             $options['membership_duration'] = $duration;
             $options['membership_unit'] = $durationUnit;
             $options['customer_group'] = $product->getData('customer_group');
@@ -171,10 +173,11 @@ class AddMembershipProductsToCart implements ResolverInterface
             $cartItems = [];
             $cartItemData = [
                 "data" => [
-                    "sku" => $sku,
+                    "sku" => "{$sku}",
                     "quantity" => $qty,
-                    "parent_sku" => null,
-                    "selected_options" => $selectedOptions,
+                    "selected_options" => [
+                        'duration' => $selectedOptions
+                    ],
                     "entered_options" => $enteredOptions
                 ],
                 "customizable_options" => [

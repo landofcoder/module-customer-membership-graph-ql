@@ -193,7 +193,7 @@ type AddMembershipProductsToCartOutput {
 }
 
 input MembershipInput {
-    sku: String!
+    sku: String
     option_id: String
     qty: Float
 }
