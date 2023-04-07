@@ -149,3 +149,53 @@ mutation{
   cancelMembership(customer_comment: "I want cancel my membership!")
 }
 ```
+
+5. Query Mutation add membership product to cart (should logged in customer account before):
+
+```
+mutation {
+  addMembershipProductsToCart(
+        input: {
+            cart_id: String
+            cart_items: [{
+              data : {
+                sku: String,
+                quantity: Int
+              },
+              duration: String!
+            }]
+        }
+    ) {
+        cart {
+            items {
+                ... on SimpleCartItem {
+                    product {
+                        name
+                        sku
+                    }
+                    quantity
+                    customizable_options {
+                        label
+                        type
+                        values {
+                            label
+                            value
+                            price {
+                                value
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+``duration: String!``
+
+example:
+
+```
+duration: "1|month"
+```

@@ -8,4 +8,28 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin
+            name="Lof_CustomerMembershipGraphQl::afterIsSalable"
+            type="Lof\CustomerMembershipGraphQl\Plugin\Product"
+            sortOrder="1"/>
+    </type>
+    <type name="Magento\CatalogGraphQl\Model\CatalogProductTypeResolver">
+        <plugin
+            name="Lof_CustomerMembershipGraphQl::afterGetProductType"
+            type="Lof\CustomerMembershipGraphQl\Plugin\CatalogProductType"
+            sortOrder="1"/>
+    </type>
+
+    <type name="Magento\QuoteGraphQl\Model\Resolver\CartItemTypeResolver">
+        <arguments>
+            <argument name="supportedTypes" xsi:type="array">
+                <item name="simple" xsi:type="string">SimpleCartItem</item>
+                <item name="virtual" xsi:type="string">VirtualCartItem</item>
+                <item name="configurable" xsi:type="string">ConfigurableCartItem</item>
+                <item name="downloadable" xsi:type="string">DownloadableCartItem</item>
+                <item name="customer_membership" xsi:type="string">CustomerMembershipCartItem</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

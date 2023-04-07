@@ -27,6 +27,8 @@ type Mutation {
     cancelMembership (
         customer_comment: String @doc(description: "Query by customer_comment.")
     ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.")
+
+
 }
 
 input MembershipTransactionFilterInput  @doc(description: "MembershipTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
@@ -185,11 +187,21 @@ type SortFields @doc(description: "SortFields contains a default value for sort 
 
 input AddMembershipProductsToCartInput {
     cart_id: String!
-    membership_input: MembershipInput!
+    cart_items: [MembershipProductCartItemInput!]! @doc(description: "An array of simple and group items to add.")
+}
+
+input MembershipProductCartItemInput @doc(description: "Defines a single product to add to the cart.") {
+    data: CartItemInput! @doc(description: "An object containing the `sku`, `quantity`, and other relevant information about the product.")
+    customizable_options:[CustomizableOptionInput!] @doc(description: "An array that defines customizable options for the product.")
+    duration: String! @doc(description: "An array that defines customizable options for the product.")
 }
 
 type AddMembershipProductsToCartOutput {
     cart: Cart!
+}
+
+type CustomerMembershipCartItem implements CartItemInterface @doc(description: "An implementation for simple product cart items.") {
+    customizable_options: [SelectedCustomizableOption]! @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CustomizableOptions") @doc(description: "An array containing the customizable options the shopper selected.")
 }
 
 input MembershipInput {
