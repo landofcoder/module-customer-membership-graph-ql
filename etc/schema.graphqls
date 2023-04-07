@@ -1,6 +1,6 @@
 
 type Query {
-    
+
     membershipProducts (
         filters: MembershipProductFilterInput @doc(description: "Identifies which membership products filter inputs to search for and return.")
         pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
@@ -9,7 +9,7 @@ type Query {
     ) : MembershipProducts @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts") @doc(description: "Query by get membership products.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MembershipProducts\\Identity")
 
     myMembership : MyMembership @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership") @doc(description: "Query by get current membership info of logged in customer.") @cache( cacheIdentity: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\MyMembership\\Identity")
-    
+
     membershipTransaction (
         filters: MembershipTransactionFilterInput @doc(description: "Identifies which membership transaction filter inputs to search for and return.")
         pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
@@ -19,10 +19,16 @@ type Query {
 }
 
 type Mutation {
-    
+
+    addMembershipProductsToCart (
+        input: AddMembershipProductsToCartInput
+        ): AddMembershipProductsToCartOutput @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\AddMembershipProductsToCart")
+
     cancelMembership (
         customer_comment: String @doc(description: "Query by customer_comment.")
-    ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.") 
+    ) : String @resolver( class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CancelMembership") @doc(description: "Query by cancel currrent membership plan.")
+
+
 }
 
 input MembershipTransactionFilterInput  @doc(description: "MembershipTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
@@ -81,25 +87,25 @@ input MembershipProductSortInput @doc(description: "MembershipProductSortInput s
 }
 
 type MembershipProduct {
-    
-    entity_id  : String  @doc(description: "Query by entity_id.") 
-    sku  : String  @doc(description: "Query by sku.") 
-    type_id  : String  @doc(description: "Query by type_id.") 
-    name  : String  @doc(description: "Query by name.") 
-    status  : String  @doc(description: "Query by status.") 
+
+    entity_id  : String  @doc(description: "Query by entity_id.")
+    sku  : String  @doc(description: "Query by sku.")
+    type_id  : String  @doc(description: "Query by type_id.")
+    name  : String  @doc(description: "Query by name.")
+    status  : String  @doc(description: "Query by status.")
     duration  : [MembershipDuration]  @doc(description: "Query by MembershipDuration.")
-    attribute_set_id  : String  @doc(description: "Query by attribute_set_id.") 
-    has_options  : String  @doc(description: "Query by has_options.") 
-    required_options  : String  @doc(description: "Query by required_options.") 
-    url_key  : String  @doc(description: "Query by url_key.") 
-    customer_group  : String  @doc(description: "Query by customer_group.") 
-    featured_package  : String  @doc(description: "Query by featured_package.") 
-    short_description  : String  @doc(description: "Query by short_description.") 
-    store_id  : String  @doc(description: "Query by store_id.") 
-    price  : String  @doc(description: "Query by price.") 
-    final_price  : String  @doc(description: "Query by final_price.") 
-    created_at  : String  @doc(description: "Query by created_at.") 
-    updated_at  : String  @doc(description: "Query by updated_at.") 
+    attribute_set_id  : String  @doc(description: "Query by attribute_set_id.")
+    has_options  : String  @doc(description: "Query by has_options.")
+    required_options  : String  @doc(description: "Query by required_options.")
+    url_key  : String  @doc(description: "Query by url_key.")
+    customer_group  : String  @doc(description: "Query by customer_group.")
+    featured_package  : String  @doc(description: "Query by featured_package.")
+    short_description  : String  @doc(description: "Query by short_description.")
+    store_id  : String  @doc(description: "Query by store_id.")
+    price  : String  @doc(description: "Query by price.")
+    final_price  : String  @doc(description: "Query by final_price.")
+    created_at  : String  @doc(description: "Query by created_at.")
+    updated_at  : String  @doc(description: "Query by updated_at.")
 }
 
 type MembershipDuration {
@@ -112,48 +118,48 @@ type MembershipDuration {
 }
 
 type MyMembership {
-    
-    membership_id  : String  @doc(description: "Query by membership_id.") 
-    group_id  : String  @doc(description: "Query by group_id.") 
-    name  : String  @doc(description: "Query by name.") 
-    duration  : String  @doc(description: "Query by duration.") 
-    price  : String  @doc(description: "Query by price.") 
-    expiration_date  : String  @doc(description: "Query by expiration_date.") 
-    created_at  : String  @doc(description: "Query by created_at.") 
-    status  : String  @doc(description: "Query by status.") 
-    product_id  : String  @doc(description: "Query by product_id.") 
-    item_id  : String  @doc(description: "Query by item_id.") 
-    product_options  : String  @doc(description: "Query by product_options.") 
+
+    membership_id  : String  @doc(description: "Query by membership_id.")
+    group_id  : String  @doc(description: "Query by group_id.")
+    name  : String  @doc(description: "Query by name.")
+    duration  : String  @doc(description: "Query by duration.")
+    price  : String  @doc(description: "Query by price.")
+    expiration_date  : String  @doc(description: "Query by expiration_date.")
+    created_at  : String  @doc(description: "Query by created_at.")
+    status  : String  @doc(description: "Query by status.")
+    product_id  : String  @doc(description: "Query by product_id.")
+    item_id  : String  @doc(description: "Query by item_id.")
+    product_options  : String  @doc(description: "Query by product_options.")
 }
 
 type CancelMembership {
 
-    entity_id  : String  @doc(description: "Query by entity_id.") 
-    membership_id  : String  @doc(description: "Query by membership_id.") 
-    status  : String  @doc(description: "Query by status.") 
-    customer_comment  : String  @doc(description: "Query by customer_comment.") 
-    admin_comment  : String  @doc(description: "Query by admin_comment.") 
-    creation_time  : String  @doc(description: "Query by creation_time.") 
-    name  : String  @doc(description: "Query by name.") 
-    duration  : String  @doc(description: "Query by duration.") 
-    price  : String  @doc(description: "Query by price.") 
-    product_id  : String  @doc(description: "Query by product_id.") 
+    entity_id  : String  @doc(description: "Query by entity_id.")
+    membership_id  : String  @doc(description: "Query by membership_id.")
+    status  : String  @doc(description: "Query by status.")
+    customer_comment  : String  @doc(description: "Query by customer_comment.")
+    admin_comment  : String  @doc(description: "Query by admin_comment.")
+    creation_time  : String  @doc(description: "Query by creation_time.")
+    name  : String  @doc(description: "Query by name.")
+    duration  : String  @doc(description: "Query by duration.")
+    price  : String  @doc(description: "Query by price.")
+    product_id  : String  @doc(description: "Query by product_id.")
 }
 
 type MembershipTransaction {
-    
-    transaction_id  : String  @doc(description: "Query by transaction_id.") 
-    name  : String  @doc(description: "Query by name.") 
-    package  : String  @doc(description: "Query by package.") 
-    amount  : String  @doc(description: "Query by amount.") 
-    duration  : String  @doc(description: "Query by duration.") 
-    duration_unit  : String  @doc(description: "Query by duration_unit.") 
-    customer_id  : String  @doc(description: "Query by customer_id.") 
-    created_at  : String  @doc(description: "Query by created_at.") 
-    product_id  : String  @doc(description: "Query by product_id.") 
-    product_options  : String  @doc(description: "Query by product_options.") 
-    item_id  : String  @doc(description: "Query by item_id.") 
-    group_id  : String  @doc(description: "Query by group_id.") 
+
+    transaction_id  : String  @doc(description: "Query by transaction_id.")
+    name  : String  @doc(description: "Query by name.")
+    package  : String  @doc(description: "Query by package.")
+    amount  : String  @doc(description: "Query by amount.")
+    duration  : String  @doc(description: "Query by duration.")
+    duration_unit  : String  @doc(description: "Query by duration_unit.")
+    customer_id  : String  @doc(description: "Query by customer_id.")
+    created_at  : String  @doc(description: "Query by created_at.")
+    product_id  : String  @doc(description: "Query by product_id.")
+    product_options  : String  @doc(description: "Query by product_options.")
+    item_id  : String  @doc(description: "Query by item_id.")
+    group_id  : String  @doc(description: "Query by group_id.")
 }
 
 type MembershipProducts @doc(description: "The membership products object is the top-level object returned in a product search.") {
@@ -177,4 +183,29 @@ type SortField {
 type SortFields @doc(description: "SortFields contains a default value for sort fields and all available sort fields.") {
     default: String @doc(description: "Default value of sort fields.")
     options: [SortField] @doc(description: "Available sort fields.")
+}
+
+input AddMembershipProductsToCartInput {
+    cart_id: String!
+    cart_items: [MembershipProductCartItemInput!]! @doc(description: "An array of simple and group items to add.")
+}
+
+input MembershipProductCartItemInput @doc(description: "Defines a single product to add to the cart.") {
+    data: CartItemInput! @doc(description: "An object containing the `sku`, `quantity`, and other relevant information about the product.")
+    customizable_options:[CustomizableOptionInput!] @doc(description: "An array that defines customizable options for the product.")
+    duration: String! @doc(description: "An array that defines customizable options for the product.")
+}
+
+type AddMembershipProductsToCartOutput {
+    cart: Cart!
+}
+
+type CustomerMembershipCartItem implements CartItemInterface @doc(description: "An implementation for simple product cart items.") {
+    customizable_options: [SelectedCustomizableOption]! @resolver(class: "Lof\\CustomerMembershipGraphQl\\Model\\Resolver\\CustomizableOptions") @doc(description: "An array containing the customizable options the shopper selected.")
+}
+
+input MembershipInput {
+    sku: String!
+    option_id: String
+    qty: Float
 }
